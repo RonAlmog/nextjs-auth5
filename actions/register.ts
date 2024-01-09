@@ -1,12 +1,12 @@
 "use server";
-import { LoginSchema } from "@/schemas";
+import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
 
 // equivalent to api route!
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+export const register = async (values: z.infer<typeof RegisterSchema>) => {
   console.log(values);
-  const validatedFields = LoginSchema.safeParse(values);
+  const validatedFields = RegisterSchema.safeParse(values);
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
