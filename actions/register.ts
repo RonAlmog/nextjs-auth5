@@ -4,6 +4,7 @@ import * as z from "zod";
 // import * as bcrypt from "bcrypt";
 const bcrypt = require("bcryptjs");
 import { db } from "@/lib/db";
+import { getUserByEmail } from "@/data/user";
 
 // equivalent to api route!
 
@@ -19,11 +20,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const hashedPass = await bcrypt.hash(password, 10);
 
   console.log("hash", hashedPass);
-  const existingUser = await db.user.findUnique({
-    where: {
-      email,
-    },
-  });
+  const existingUser = await getUserByEmail(email);
   if (existingUser) {
     return { error: "Email already in use!" };
   }
