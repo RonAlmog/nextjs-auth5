@@ -1,8 +1,9 @@
 "use server";
 import { LoginSchema } from "@/schemas";
 import * as z from "zod";
-
-// equivalent to api route!
+import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { AuthError } from "next-auth";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   console.log(values);
@@ -11,7 +12,28 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     return { error: "Invalid fields!" };
   }
 
-  return { success: "Email sent!" };
+  const { email, password } = validatedFields.data;
+  try {
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
+    });
+  } catch (error) {
+    console.log("error", error);
+    console.log("type", error.type);
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Invalid Credentials" };
+        default:
+          console.log("Something went wrong!");
+          return { error: "Something went wrong!" };
+      }
+    }
+
+    throw error;
+  }
 
   // nextjs cache functions
   // revalidatePath()
