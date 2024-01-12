@@ -4,6 +4,7 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
+import { generateVerificationToken } from "@/lib/tokens";
 
 // equivalent to api route!
 
@@ -30,9 +31,11 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     },
   });
 
+  const verificationToken = await generateVerificationToken(email);
+
   // todo: send verification token email
 
-  return { success: "User created!" };
+  return { success: "Confirmation email sent!" };
 
   // nextjs cache functions
   // revalidatePath()
