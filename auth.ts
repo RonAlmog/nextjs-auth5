@@ -13,6 +13,20 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  events: {
+    // in the case of new social account, set the emailVerified.
+    // we trus google, github etc, and don't need to verify email.
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
   callbacks: {
     // async signIn({ user }) {
     //   // block unverified user
