@@ -1,17 +1,17 @@
-import { Card, CardFooter, CardHeader } from "../ui/card";
-import BackButton from "./back-button";
-import Header from "./header";
+import { FaExclamationTriangle } from "react-icons/fa";
+import CardWrapper from "./card-wrapper";
 
 const ErrorCard = () => {
   return (
-    <Card className="w-[400px] shadow-sm">
-      <CardHeader>
-        <Header label="Oops! Semthing went wrong!" />
-      </CardHeader>
-      <CardFooter>
-        <BackButton label="Back to login" href="/auth/login" />
-      </CardFooter>
-    </Card>
+    <CardWrapper
+      headerLabel="Oops! Semthing went wrong!"
+      backButtonHref="/auth/login"
+      backButtonLabel="Back to login"
+    >
+      <div className="w-full flex justify-center items-center">
+        <FaExclamationTriangle className="text-destructive w-12 h-12" />
+      </div>
+    </CardWrapper>
   );
 };
 
