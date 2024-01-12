@@ -4,9 +4,9 @@
 export const publicRoutes = ["/"];
 
 /**
- * protected routes. these routes will redirect users to /settings
+ * these routes are allowed for (only!) non authenticated users
  */
-export const authRoutes = ["/auth/login", "/auth/register"];
+export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
 
 /**
  * prefix for api auth routes

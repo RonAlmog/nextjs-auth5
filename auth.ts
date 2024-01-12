@@ -13,6 +13,10 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
   events: {
     // in the case of new social account, set the emailVerified.
     // we trus google, github etc, and don't need to verify email.
