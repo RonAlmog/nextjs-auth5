@@ -14,6 +14,14 @@ export const {
   signOut,
 } = NextAuth({
   callbacks: {
+    // async signIn({ user }) {
+    //   // block unverified user
+    //   const existingUser = await getUserById(user.id);
+    //   if (!existingUser || !existingUser.emailVerified) {
+    //     return false;
+    //   }
+    //   return true;
+    // },
     // looks like session is receivin the token from jwt callback (below)
     // so we can pass extra params into the session thru the token
     async session({ token, session }) {
