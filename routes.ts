@@ -1,7 +1,7 @@
 /**
  * array of routes that are accessible to the public without need to authenticate
  */
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/", "/auth/new-verification"];
 
 /**
  * these routes are allowed for (only!) non authenticated users
