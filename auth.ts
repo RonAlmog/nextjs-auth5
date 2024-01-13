@@ -32,14 +32,18 @@ export const {
     },
   },
   callbacks: {
-    // async signIn({ user }) {
-    //   // block unverified user
-    //   const existingUser = await getUserById(user.id);
-    //   if (!existingUser || !existingUser.emailVerified) {
-    //     return false;
-    //   }
-    //   return true;
-    // },
+    async signIn({ user, account }) {
+      // allow OAuth without email verification
+      if (account?.provider !== "credentials") return true;
+
+      // for credentials only, block unverified user
+      const existingUser = await getUserById(user.id);
+      if (!existingUser || !existingUser.emailVerified) {
+        return false;
+      }
+      // todo : add 2fa check
+      return true;
+    },
     // looks like session is receivin the token from jwt callback (below)
     // so we can pass extra params into the session thru the token
     async session({ token, session }) {
