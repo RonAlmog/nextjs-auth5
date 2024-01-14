@@ -6,7 +6,12 @@ export const publicRoutes = ["/", "/auth/new-verification"];
 /**
  * these routes are allowed for (only!) non authenticated users
  */
-export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
+export const authRoutes = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/error",
+  "/auth/reset",
+];
 
 /**
  * prefix for api auth routes

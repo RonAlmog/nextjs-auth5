@@ -25,6 +25,7 @@ export const verification = async (token: string) => {
     },
     data: {
       emailVerified: new Date(),
+      // we update the email too, for a case where user is changing their email in settings
       email: existingToken.email,
     },
   });
