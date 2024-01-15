@@ -4,6 +4,7 @@ import { PrismaClient, UserRole } from "@prisma/client";
 import authConfig from "@/auth.config";
 import { db } from "./lib/db";
 import { getUserById } from "./data/user";
+import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
 
 const prisma = new PrismaClient();
 
@@ -41,7 +42,21 @@ export const {
       if (!existingUser || !existingUser.emailVerified) {
         return false;
       }
-      // todo : add 2fa check
+      // 2fa check
+      if (existingUser.isTwoFactorEnabled) {
+        const confirmation = await getTwoFactorConfirmationByUserId(
+          existingUser.id
+        );
+        if (!confirmation) return false;
+
+        // delete the two factor auth token. consider counter to allow sending only once in...
+        await db.twoFactorConfirmation.delete({
+          where: {
+            id: confirmation.id,
+          },
+        });
+      }
+
       return true;
     },
     // looks like session is receivin the token from jwt callback (below)
