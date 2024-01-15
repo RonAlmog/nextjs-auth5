@@ -7,7 +7,7 @@ export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
     from: "onboarding@resend.dev",
     to: email,
     subject: "Your Authentication code",
-    html: `<p>Your Authentication code is "${token}"</p>`,
+    html: `<p>Your Authentication code is ${token}</p>`,
   });
 };
 
