@@ -70,6 +70,10 @@ export const {
         session.user.role = token.role as UserRole;
       }
 
+      if (session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as Boolean;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -78,7 +82,9 @@ export const {
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
 
+      // here you can add fields to your token!
       token.role = existingUser.role;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;
     },
