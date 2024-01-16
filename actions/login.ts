@@ -15,16 +15,12 @@ import { db } from "@/lib/db";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-  console.log(values);
   const validatedFields = LoginSchema.safeParse(values);
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
 
   const { email, password, code } = validatedFields.data;
-  console.log("email", email);
-  console.log("code", code);
-
   const existingUser = await getUserByEmail(email);
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Invalid Credentials!" };
