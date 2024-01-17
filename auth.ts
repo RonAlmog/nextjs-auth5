@@ -74,6 +74,12 @@ export const {
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as Boolean;
       }
 
+      // in case use changes in settings
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -83,6 +89,8 @@ export const {
       if (!existingUser) return token;
 
       // here you can add fields to your token!
+      token.name = existingUser.name;
+      token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 

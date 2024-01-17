@@ -1,22 +1,34 @@
 "use client";
 
+import { settings } from "@/actions/settings";
 import { Button } from "@/components/ui/button";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { useSession, signOut } from "next-auth/react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useSession } from "next-auth/react";
+import { useTransition } from "react";
 
 export default function SettingsPage() {
-  // const session = useSession(); // whole session object
-  const user = useCurrentUser(); // only user object from session (usually enough)
+  // lets you update the session from client side
+  const { update } = useSession();
+
+  const [isPending, startTransition] = useTransition();
 
   const onClick = () => {
-    signOut();
+    startTransition(() => {
+      settings({ name: "Johny" });
+      update(); // update session
+    });
   };
 
   return (
-    <div className="bg-white p-10 rounded-xl">
-      <Button onClick={onClick} variant="outline">
-        Sign Out
-      </Button>
-    </div>
+    <Card className="w-[600px]">
+      <CardHeader>
+        <p className="text-2xl font-semibold text-center">Settings</p>
+      </CardHeader>
+      <CardContent>
+        <Button onClick={onClick} disabled={isPending}>
+          Update name
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
