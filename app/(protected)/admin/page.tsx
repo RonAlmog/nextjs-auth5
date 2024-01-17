@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useCurrentRole } from "@/hooks/use-current-role";
 import { UserRole } from "@prisma/client";
+import { toast } from "sonner";
 // import { currentRole } from "@/lib/auth";
 
 const AdminPage = () => {
@@ -13,6 +14,16 @@ const AdminPage = () => {
   const role = useCurrentRole();
   // server
   // const role = await currentRole();
+
+  const onApiRouteClick = () => {
+    fetch("/api/admin").then((response) => {
+      if (response.ok) {
+        toast.success("Allowed API route");
+      } else {
+        toast.error("Forbidden API route");
+      }
+    });
+  };
 
   return (
     <Card className="w-[600px]">
@@ -25,7 +36,7 @@ const AdminPage = () => {
         </RoleGate>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p className="text-sm font-medium">Admin only API Route</p>
-          <Button>Click to test</Button>
+          <Button onClick={onApiRouteClick}>Click to test</Button>
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p className="text-sm font-medium">Admin only Server Action</p>
