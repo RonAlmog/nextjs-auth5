@@ -5,6 +5,7 @@ import authConfig from "@/auth.config";
 import { db } from "./lib/db";
 import { getUserById } from "./data/user";
 import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+import { getAccountByUserId } from "./data/account";
 
 const prisma = new PrismaClient();
 
@@ -78,6 +79,7 @@ export const {
       if (session.user) {
         session.user.name = token.name;
         session.user.email = token.email;
+        session.user.isOAuth = token.isOAuth as boolean;
       }
 
       return session;
@@ -88,7 +90,10 @@ export const {
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
 
+      const existingAccount = await getAccountByUserId(existingUser.id);
+
       // here you can add fields to your token!
+      token.isOAuth = !!existingAccount; // only OAuth users have a record in account
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
