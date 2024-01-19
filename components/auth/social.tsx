@@ -6,12 +6,14 @@ import { Button } from "../ui/button";
 // signIn from "next-auth/react" => for client components
 import { signIn } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import github from "next-auth/providers/github";
+import { useSearchParams } from "next/navigation";
 
 const Social = () => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   const onClick = (provider: "google" | "github") => {
     signIn(provider, {
-      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+      callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
   };
   return (
