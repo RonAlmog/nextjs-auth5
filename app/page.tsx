@@ -22,10 +22,16 @@ export default function Home() {
         </h1>
         <p className="text-white text-lg">A simple authentication service</p>
 
-        <div>
+        <div className="flex flex-row gap-x-4">
           <LoginButton>
             <Button variant="secondary" size="lg">
               Sign In
+            </Button>
+          </LoginButton>
+
+          <LoginButton mode="modal" asChild>
+            <Button variant="secondary" size="lg">
+              Modal Sign In
             </Button>
           </LoginButton>
         </div>
