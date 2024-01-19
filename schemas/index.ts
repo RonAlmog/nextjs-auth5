@@ -35,6 +35,7 @@ export const SettingsSchema = z
       if (data.password && !data.newPassword) {
         return false;
       }
+      return true;
     },
     {
       message: "New password is required!",
@@ -46,6 +47,7 @@ export const SettingsSchema = z
       if (data.newPassword && !data.password) {
         return false;
       }
+      return true;
     },
     {
       message: "Password is required!",

@@ -3,8 +3,8 @@ import NextAuth, { type DefaultSession } from "next-auth";
 
 export type ExtendedUser = DefaultSession["user"] & {
   role: UserRole;
-  isTwoFactorEnabled: Boolean;
-  isOAuth: Boolean;
+  isTwoFactorEnabled: boolean;
+  isOAuth: boolean;
   // you can add custom fields here:
   // customField: string;
 };
