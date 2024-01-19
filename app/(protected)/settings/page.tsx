@@ -53,6 +53,8 @@ export default function SettingsPage() {
   });
 
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+    setError("");
+    setSuccess("");
     startTransition(() => {
       settings(values)
         .then((data) => {
